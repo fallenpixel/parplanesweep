@@ -8,9 +8,9 @@
 #ifndef VECTORALEQ_H
 #define VECTORALEQ_H
 /**
- *  \class
+ *  \class eventQueue
  *
- * \brief A vector-based implementation of a plane sweep event queue
+ *  \brief A vector-based implementation of a plane sweep event queue
  * 
  *  This is an event queue implemented on top of an STL vector
  *
@@ -101,7 +101,7 @@ class eventQueue
 };
 
 /**
- * \class
+ * \class activeListVec
  *
  * \brief A vector-based implementation of a plane sweep active list
  *
