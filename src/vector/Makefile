@@ -1,26 +1,20 @@
  
 OPTFLAGS = -O3
 
-CCC=/opt/local/bin/g++-mp-4.9
-#CCC=g++ -std=c++11 
+CCC=g++ -std=c++11 
 
 SRCMAPALGEBRA = ../map/hseg2DFixedSize.cpp ../map/poi2DFixedSize.cpp ../map/seg2DFixedSize.cpp ../map/mbb2DFixedSize.cpp
 INCLUDEMAPALGEBRA = -I ../map
+
 all: pps
 	 $(info ***** be sure to set lib path to current dir with: export LD_LIBRARY_PATH=.)
+	 $(info ***** thrtead affinity env variable: export GOMP_CPU_AFFINITY=0-x, x = num processors)
 
-#pps: main.o  libparOverlay.so
-#	${CCC} ${OPTFLAGS} -o pps -fopenmp -L ./ main.o -l parOverlay
-#	${CCC} ${OPTFLAGS} -o ppsBin -fopenmp -L ./ mainBin.o -l parOverlay $(SRCMAPALGEBRA) 
+
 pps: main.o  libparOverlay.so
-	${CCC} ${OPTFLAGS} -o pps -fopenmp -L ./ main.o -l parOverlay -lpapi	
-#	${CCC} ${OPTFLAGS} -o ppsBin -fopenmp -L ./ mainBin.o -l parOverlay $(SRCMAPALGEBRA) 
+	${CCC} ${OPTFLAGS} -o pps -fopenmp -L ./ main.o -l parOverlay
 
 
-#libparOverlay.so:   parPlaneSweep.o
-#	${CCC} ${OPTFLAGS} -fopenmp -dynamiclib -Wl,-dylib_install_name,libparOverlay.so.1  -o libparOverlay.so.1.0.1 parPlaneSweep.o 
-#	ln -f -s libparOverlay.so.1.0.1 libparOverlay.so.1
-#	ln -f -s libparOverlay.so.1.0.1 libparOverlay.so
 
 libparOverlay.so:   parPlaneSweep.o
 	${CCC} -fopenmp -shared -Wl,-soname,libparOverlay.so.1   -o libparOverlay.so.1.0.1 parPlaneSweep.o 
@@ -29,11 +23,6 @@ libparOverlay.so:   parPlaneSweep.o
 
 main.o: main.cpp
 	${CCC} ${OPTFLAGS} -c main.cpp 
-
-
-
-#mainBin.o: mainBin.cpp
-#	${CCC} ${OPTFLAGS} -c mainBin.cpp $(INCLUDEMAPALGEBRA) 
 
 
 parPlaneSweep.o: parPlaneSweep.h parPlaneSweep.cpp

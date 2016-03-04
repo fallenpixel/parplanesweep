@@ -201,7 +201,7 @@ void parallelOverlay( vector<halfsegment> &r1, vector<halfsegment> &r2, vector<h
 	// }
 
 	// do the actual plane sweeps
-#pragma omp parallel for
+#pragma omp parallel for schedule(dynamic,1)  
 	for( int i = 0; i < numStrips; i++ ) {
 		partialOverlay( r1Strips, r2Strips, resultStrips[i], r1StripStopIndex, r2StripStopIndex, i );
 	}
