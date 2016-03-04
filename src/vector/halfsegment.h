@@ -41,12 +41,16 @@ inline bool leftHandturn( double p1x, double p1y, double p2x, double p2y, double
  *  opposing region lies above and/or below this halfsegment.
  */
 struct halfsegment {
-	// dominating and submissive points
+	/// dominating and submissive points
 	double dx, dy, sx, sy; 
-	int la, lb; //label above, label below
-	int stripID; // strip id
-	int regionID; // the region this seg belongs to
-	int ola, olb; // overlap labels
+	///label above, label below 
+        int la, lb; 
+	/// strip ID
+        int stripID; 
+        // the region this seg nelongs to
+	int regionID;
+        /// overlap labels
+	int ola, olb;
 	
         /**
          * Default constructor

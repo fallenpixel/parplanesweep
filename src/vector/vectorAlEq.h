@@ -27,7 +27,8 @@
 class eventQueue
 {
     private:
-        vector<halfsegment> eq; /// the vector used for the queue
+        /// the vector used for the queue
+        vector<halfsegment> eq; 
     
     public:
         /**
@@ -112,9 +113,11 @@ class eventQueue
 class activeListVec
 {
     private:
-        vector<halfsegment> al; /// The active list vector
+        /// The active list vector 
+        vector<halfsegment> al; 
     public:
-        double xVal; /// The current position of the sweep line
+        /// The current position of the sweep line 
+        double xVal; 
 
         // always assume h1 is the new halfsegment (being entered into the list)
         // returns true if h1 < h2, false otherwise
