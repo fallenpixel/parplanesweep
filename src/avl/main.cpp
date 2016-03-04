@@ -24,6 +24,11 @@
  *
  *
  *  The data directory contains example input files.  
+ *
+ *  Source code for the project is available at:
+ *
+ *  https://bitbucket.org/marmcke/parallelplanesweep
+ *
  */
 
 using namespace std;
