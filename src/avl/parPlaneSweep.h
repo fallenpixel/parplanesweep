@@ -47,6 +47,8 @@ inline bool leftHandturn( double p1x, double p1y, double p2x, double p2y, double
 /** 
  * \class halfsegment
  *
+ * \brief holds a single halfsegment, along with labeling information and information indicating if the opposing region's interior lies above and/or below the halfsegment.
+ *
  *  holds a halfsegment.  
  *
  *  Contains the x and y values for the dominating and submissive points.

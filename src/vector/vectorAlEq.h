@@ -10,6 +10,8 @@
 /**
  *  \class
  *
+ * \brief A vector-based implementation of a plane sweep event queue
+ * 
  *  This is an event queue implemented on top of an STL vector
  *
  *  It is pretty basic.  It simply pops from the front of the vector,
@@ -100,6 +102,8 @@ class eventQueue
 
 /**
  * \class
+ *
+ * \brief A vector-based implementation of a plane sweep active list
  *
  * The vector implementation of an activce list. 
  *
