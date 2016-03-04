@@ -303,6 +303,11 @@ void parallelOverlay( vector<halfsegment> &r1, vector<halfsegment> &r2, vector<h
 												isoBounds );
 }
 
+// call the individual overlay functions.
+// this function just sets up the function calls to overlayPlaneSweep
+/**
+ * See the prototype in parPlaneSweep.h
+ */
  void partialOverlay( 	const vector<halfsegment> & r1Strips, const vector<halfsegment> & r2Strips,
 											vector<halfsegment> & result, 
 											vector< int > &r1StripStopIndex, vector< int > &r2StripStopIndex, 

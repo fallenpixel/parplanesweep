@@ -1,9 +1,9 @@
  
 OPTFLAGS = -O3
 
-#CCC=/opt/local/bin/g++-mp-4.8
+CCC=/opt/local/bin/g++-mp-4.9
 #CCC=g++
-CCC=/opt/local/bin/g++-mp-5 
+#CCC=/opt/local/bin/g++-mp-5 
 all: pps
 	 $(info ***** be sure to set lib path to current dir with: export LD_LIBRARY_PATH=.)
 	 $(info ***** thrtead affinity env variable: export GOMP_CPU_AFFINITY=0-x, x = num processors)

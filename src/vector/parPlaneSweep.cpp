@@ -5,6 +5,9 @@
 #include <limits>
 #include <algorithm>
 
+/**
+ * A binary search function
+ */
 int binarySearchExists( vector< halfsegment > &region, double x, int hi=-1, int lo=0 ) 
 {
 	if( hi < 0 )
@@ -18,6 +21,9 @@ int binarySearchExists( vector< halfsegment > &region, double x, int hi=-1, int 
 	return -1;
 }
 
+/**
+ * A binary search function
+ */
 int binarySearchSmallestGreater( vector< halfsegment > &region, double x, int hi=-1, int lo=-1 ) 
 {
 	if( hi < 0 )
@@ -34,6 +40,9 @@ int binarySearchSmallestGreater( vector< halfsegment > &region, double x, int hi
 	return hi;
 }
 
+/**
+ * A binary search function
+ */
 bool binarySearchHalfsegment(vector< halfsegment > &region, 
 														const halfsegment &h, int & mid, int hi=-1, int lo=0 )  
 {
@@ -49,24 +58,80 @@ bool binarySearchHalfsegment(vector< halfsegment > &region,
 	return false;
 }
 
+/**
+ *  Find the isolation boundaries.  Isolation boundaries are vertical lines
+ *  that do not intersect any halfsegment end points in r1 or r2 that form the 
+ *  strip boundaries
+ *
+ *  \param r1  halfsegments defining one input region
+ *  \param r2 halfsegments definining the second input region
+ *  \param isoBounds [in/out] the x values indicating vertical lines that form strip boundaries.
+ *
+ */
 void findIsoBoundaries( vector<halfsegment> &r1, vector<halfsegment> &r2,
 												vector< double> & isoBounds );
+
+
+/**
+ *  Break an input region up into strips.  Strip boundaries are isoBounds
+ *
+ *  \param region the region to split into strips
+ *  \param isoBounds  the strip boundaries
+ *  \param rStrips [out] the region broken into strips.  Each halfsegment will have a strip ID indicating the strip to which it belongs.  stripIDs start at 0 and increment.
+ *  \param stripStopIndex [out] halfsegments in rStrips are sorted by strip ID then halfsegment ordering.  This vector marks the positions in the rStrips array where the last halfsegment in each strip is located.
+ */
 void createStrips( vector< halfsegment> & region, vector<double> &isoBounds, 
 									 vector<halfsegment> & rStrips, 	vector< int > &stripStopIndex );
+
+
+
+/**
+ * This function calls the individual overlay functions.  It simply sets up calls
+ * to overlayPlaneSweep().
+ *
+ * It is expected that the overlayPlaneSweep() function splits up the input into 
+ * strips, and then passes those strips to this function.
+ *
+ * The start and stop indexes indcate where each strip starts in the r1Strips and r2Strips vectors.
+ */
 void partialOverlay( 	const vector<halfsegment> & r1Strips, const vector<halfsegment> & r2Strips,
 											vector<halfsegment> & result, 
 											vector< int > &r1StripStopIndex, vector< int > &r2StripStopIndex, 
 											const int stripID );
+
+
+
+
+/**
+ *  Find the intersection point between two halfsegments.  Also indicate if they are colinear.  
+ */
 bool findIntersectionPoint( const halfsegment & h1, const  halfsegment & h2,
 														double & X, double & Y, bool & colinear );
+
+
+/**
+ *  break halfsegments if they intersect.  returns a vector of the resulting halfsegments, since various numbers of halfsegments are returned based on the confguration of the input halfsegments.
+ */
 bool breakHsegs( const halfsegment &alSeg, halfsegment & origCurr,
 								 vector< halfsegment> & brokenSegs, bool & colinear,
 								 const bool includeCurrSegInBrokenSegs );
 
+/**
+ *  Remove breaks in halfsegments that are only introduced to create strips.
+ *  
+ *  This is not strictly necessary, but removes breaks in halfsegemnts 
+ *  that were introduced solely for the purpose of createing strips
+ */
 void createFinalOverlay( vector<halfsegment> & finalResult,
 												 vector< vector<halfsegment> > &resultStrips, 
 												 const vector<double> &isoBounds );
 
+
+/**
+ *  Once two intersecting halfsegments have been broken up based on their intersection such that the result halfsegments only intersect at end points, we need to put those halfsegments in the event queue, and possible the active list.  This function does that.
+ *
+ *  eventX and eventY indicate the current event point (where the sweep line is).
+ */
 void insertBrokenSegsToActiveListAndDiscoveredQueue( const vector<halfsegment> & brokenSegs,
 																										 vector<halfsegment> & result,
 																										 eventQueue& discoveredSegs,
@@ -74,6 +139,9 @@ void insertBrokenSegsToActiveListAndDiscoveredQueue( const vector<halfsegment> &
 																										 const double eventX,
 																										 const double eventY );
 
+/**
+ * See the prototype in parPlaneSweep.h
+ */
 void parallelOverlay( vector<halfsegment> &r1, vector<halfsegment> &r2, vector<halfsegment> &result, 
 							int numStrips, int numWorkerThreads )
 {
@@ -147,6 +215,9 @@ void parallelOverlay( vector<halfsegment> &r1, vector<halfsegment> &r2, vector<h
 
 // call the individual overlay functions.
 // this function just sets up the function calls to overlayPlaneSweep
+/**
+ * See the prototype in parPlaneSweep.h
+ */
 void partialOverlay( 	const vector<halfsegment> & r1Strips, const vector<halfsegment> & r2Strips,
 											vector<halfsegment> & result, 
 											vector< int > &r1StripStopIndex, vector< int > &r2StripStopIndex, 
@@ -169,6 +240,9 @@ void partialOverlay( 	const vector<halfsegment> & r1Strips, const vector<halfseg
 										 result);
 }
 
+/**
+ * See the prototype in parPlaneSweep.h
+ */
 void overlayPlaneSweep( const halfsegment r1[], int r1Size, 
 												const halfsegment r2[], int r2Size, 
 												vector<halfsegment>& result )

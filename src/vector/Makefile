@@ -1,7 +1,7 @@
  
 OPTFLAGS = -O3
 
-CCC=/opt/local/bin/g++-mp-5 
+CCC=/opt/local/bin/g++-mp-4.9
 #CCC=g++ -std=c++11 
 
 SRCMAPALGEBRA = ../map/hseg2DFixedSize.cpp ../map/poi2DFixedSize.cpp ../map/seg2DFixedSize.cpp ../map/mbb2DFixedSize.cpp

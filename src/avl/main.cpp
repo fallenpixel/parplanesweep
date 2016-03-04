@@ -21,6 +21,9 @@
  *
  *  The code computes an overlay of two input regions.  The halfsegments that are returned are labeled such that the 
  *  intersection, union, or difference (or even topological predicates) can be extracted from the labels.
+ *
+ *
+ *  The data directory contains example input files.  
  */
 
 using namespace std;

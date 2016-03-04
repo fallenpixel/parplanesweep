@@ -118,6 +118,9 @@ halfsegment( const halfsegment &rhs ): dx(rhs.dx), dy(rhs.dy),
          *  Overloaded less than operator.
          *
          *  Computes based ONLY on the end points of the halfsegment.
+         *  That is,  not nased on labels
+         *
+         *  Uses halfsegment ordering to determine less than
          */
 	bool operator<( const halfsegment &rhs ) const {
 		if( dx < rhs.dx || (dx == rhs.dx && dy < rhs.dy ) ) return true;
@@ -143,6 +146,12 @@ halfsegment( const halfsegment &rhs ): dx(rhs.dx), dy(rhs.dy),
 	
         /**
          *  Compute the y value on a linesegment (halfsegment in this case) at a given x value.
+         *
+         *  Note that if the x value is beyond the end of the line segment, this still returns
+         *  a y value.  In otherwords, it is based only upon the equation of a line.  The caller
+         *  needs to ensure x is either within the line segment, or check after the function returns
+         *
+         *  Note that this is sensitive to divide by 0! and to floating point rounding errors
          */
 	double getYvalAtX( const double x ) const 
 	{
