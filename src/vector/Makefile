@@ -12,7 +12,7 @@ all: pps
 
 
 pps: main.o  libparOverlay.so
-	${CCC} ${OPTFLAGS} -o pps -fopenmp -L ./ main.o -l parOverlay
+	${CCC} ${OPTFLAGS} -o pps -fopenmp -L ./ main.o -l parOverlay -l tbb
 
 
 

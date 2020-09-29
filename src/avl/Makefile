@@ -8,7 +8,7 @@ all: pps
 	 $(info ***** thrtead affinity env variable: export GOMP_CPU_AFFINITY=0-x, x = num processors)
 
 pps: main.o  libparOverlay.so
-	${CCC} ${OPTFLAGS} -o pps -fopenmp -L ./ main.o -l parOverlay
+	${CCC} ${OPTFLAGS} -o pps -fopenmp -L ./ main.o -l parOverlay -l tbb
 
 
 

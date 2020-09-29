@@ -11,7 +11,7 @@
 
 
 #include <iomanip>
-#include <omp.h>
+#include <tbb/tbb.h>
 #include "parPlaneSweep.h"
 #include "vectorAlEq.h"
 #include <limits>
@@ -164,11 +164,14 @@ void parallelOverlay( vector<halfsegment> &r1, vector<halfsegment> &r2, vector<h
 	result.clear();  // make sure the result vec is clear
 
 		// set default parallel values
-	if( numStrips < 0 ) {
-		numStrips = omp_get_num_procs();
+if ( numWorkerThreads > 0 ) {
+		tbb::task_scheduler_init init(tbb::task_scheduler_init::automatic);
 	}
-	if( numWorkerThreads > 0 ) {
-		omp_set_num_threads( numWorkerThreads );
+	else {
+		tbb::task_scheduler_init init(numWorkerThreads);
+	}
+	if (numStrips < 0) {
+		numStrips = tbb::task_scheduler_init::default_num_threads();
 	}
 
 
@@ -186,11 +189,11 @@ void parallelOverlay( vector<halfsegment> &r1, vector<halfsegment> &r2, vector<h
 	findIsoBoundaries( r1, r2, isoBounds );
 
 	// split up the regions at the iso boundaries
- #pragma omp parallel for
-	for( int i = 0; i < 2; i++ ){
-		if( i == 0 ) createStrips( r1, isoBounds, r1Strips, r1StripStopIndex );
-		else  createStrips( r2, isoBounds, r2Strips, r2StripStopIndex );
-	}
+
+tbb::parallel_for(0, 2, [&] (int i) {
+ 		if( i == 0 ) createStrips( r1, isoBounds, r1Strips, r1StripStopIndex );
+		else  createStrips( r2, isoBounds, r2Strips, r2StripStopIndex );}
+);
 	// {
 	// 	int count, total = 0;
 	// 	cout << "Number of segmenents in each strip (r1): , "; 
@@ -213,11 +216,9 @@ void parallelOverlay( vector<halfsegment> &r1, vector<halfsegment> &r2, vector<h
 	// }
 
 	// do the actual plane sweeps
-#pragma omp parallel for schedule(dynamic,1)  
-	for( int i = 0; i < numStrips; i++ ) {
-		partialOverlay( r1Strips, r2Strips, resultStrips[i], r1StripStopIndex, r2StripStopIndex, i );
-	}
-
+tbb::parallel_for(0, numStrips, [&](int i) {
+	partialOverlay( r1Strips, r2Strips, resultStrips[i], r1StripStopIndex, r2StripStopIndex, i );
+	});
 	// create the final overlay
 	createFinalOverlay(  result,
 										 resultStrips, 
